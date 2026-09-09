@@ -113,23 +113,15 @@ export function PhotoGrid({
                   </div>
                 )}
 
-                {/* In the tiled Gallery the caption strip is always drawn, even
-                    when a piece has no title or artist recorded. Only a third of
-                    the collection carries both, so rendering it conditionally
-                    left the wall a patchwork of tall and short cards. */}
-                {natural ? (
-                  label ? (
-                    <div className={styles.label}>
-                      {item.title ? <span className={styles.title}>{item.title}</span> : null}
-                      {item.artist ? <span className={styles.artist}>by {item.artist}</span> : null}
-                    </div>
-                  ) : null
-                ) : (
+                {/* Do not reserve an empty caption strip. Tiled cards keep a
+                    consistent outer shape, so an unlabelled picture can use all
+                    of the space that a caption would otherwise occupy. */}
+                {label ? (
                   <div className={styles.label}>
                     {item.title ? <span className={styles.title}>{item.title}</span> : null}
                     {item.artist ? <span className={styles.artist}>by {item.artist}</span> : null}
                   </div>
-                )}
+                ) : null}
               </a>
             </li>
           );
