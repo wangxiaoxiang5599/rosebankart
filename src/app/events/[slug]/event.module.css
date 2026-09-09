@@ -1,0 +1,48 @@
+.head {
+  background: var(--cream-deep);
+  border-bottom: 1px solid var(--line);
+  padding: var(--s4) 0;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin-bottom: var(--s1);
+}
+
+.kind {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9375rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s1);
+}
+
+.head h1 { margin-bottom: var(--s2); }
+
+.when {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: 0 0 var(--s1);
+}
+
+.where { color: var(--ink-soft); margin: 0; }
+
+.summary { font-size: var(--text-lg); margin-top: var(--s4); }
+
+.body { white-space: pre-wrap; max-width: var(--measure); }
+
+.photos { margin: var(--s5) 0 var(--s6); }
+
+/* One picture on its own — usually a poster or a page of the newsletter.
+   Held to a readable width instead of stretched across the whole page. */
+.single {
+  margin: var(--s5) auto var(--s6);
+  max-width: 46rem;
+}

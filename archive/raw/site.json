@@ -1,0 +1,50 @@
+{
+  "ID": 183152088,
+  "name": "Rosebank Art Centre",
+  "description": "Charitable Trust",
+  "URL": "https://teawamutuartcentre.wordpress.com",
+  "jetpack": false,
+  "jetpack_connection": false,
+  "subscribers_count": 11,
+  "lang": false,
+  "icon": {
+    "img": "https://teawamutuartcentre.wordpress.com/wp-content/uploads/2021/05/cropped-mc-ex-abstract-face-cropped.jpg?w=96",
+    "ico": "https://teawamutuartcentre.wordpress.com/wp-content/uploads/2021/05/cropped-mc-ex-abstract-face-cropped.jpg?w=96"
+  },
+  "logo": {
+    "id": 0,
+    "sizes": [],
+    "url": ""
+  },
+  "visible": null,
+  "is_private": false,
+  "is_coming_soon": false,
+  "is_following": false,
+  "organization_id": 0,
+  "meta": {
+    "links": {
+      "self": "https://public-api.wordpress.com/rest/v1.1/sites/183152088",
+      "help": "https://public-api.wordpress.com/rest/v1.1/sites/183152088/help",
+      "posts": "https://public-api.wordpress.com/rest/v1.1/sites/183152088/posts/",
+      "comments": "https://public-api.wordpress.com/rest/v1.1/sites/183152088/comments/",
+      "xmlrpc": "https://teawamutuartcentre.wordpress.com/xmlrpc.php"
+    }
+  },
+  "launch_status": "launched",
+  "site_migration": {
+    "is_complete": false,
+    "in_progress": false
+  },
+  "is_fse_active": false,
+  "is_fse_eligible": false,
+  "is_core_site_editor_enabled": false,
+  "is_wpcom_atomic": false,
+  "is_wpcom_staging_site": false,
+  "is_deleted": false,
+  "is_a4a_client": false,
+  "is_a4a_dev_site": false,
+  "is_garden": false,
+  "garden_name": null,
+  "is_wpcom_flex": false,
+  "big_sky_enabled": false
+}

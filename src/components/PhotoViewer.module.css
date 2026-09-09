@@ -1,0 +1,132 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  /* Fully opaque: at 95% the page behind bled through the controls and read
+     as a rendering fault. Reading a poster wants a clean ground anyway. */
+  background: #12161a;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+/* -- top bar --------------------------------------------------------------- */
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  padding: var(--s2);
+}
+
+.zoomGroup { display: flex; align-items: center; gap: var(--s1); }
+
+.percent {
+  min-width: 4.5rem;
+  text-align: center;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-base);
+}
+
+.btn {
+  min-width: 56px;
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s1);
+  padding: 0 var(--s2);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.42);
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.28); }
+.btn:disabled { opacity: 0.35; cursor: default; }
+
+.wide { padding: 0 var(--s3); font-size: var(--text-base); white-space: nowrap; }
+
+/* -- the picture ----------------------------------------------------------- */
+
+.stage {
+  position: relative;
+  min-height: 0;
+  /* Real scrollbars. They are the only control that shows there is more of the
+     page below the fold. */
+  overflow: auto;
+  scrollbar-color: rgba(255, 255, 255, 0.55) rgba(255, 255, 255, 0.08);
+  display: flex;
+  /* `margin: auto` on the child, not `justify/align: center`: centred flex
+     content that overflows gets clipped at the top and cannot be scrolled to. */
+  padding: var(--s2);
+  /* Let the browser handle one-finger panning and pinch on touch. */
+  touch-action: auto;
+}
+
+.stage::-webkit-scrollbar { width: 16px; height: 16px; }
+.stage::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.08); }
+.stage::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.stage::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.72); background-clip: content-box; }
+
+.img {
+  margin: auto;
+  height: auto;
+  max-width: none;
+  display: block;
+  background: #fff;
+  border-radius: 2px;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* -- side navigation ------------------------------------------------------- */
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 60px;
+  min-height: 60px;
+  font-size: var(--text-2xl);
+  background: rgba(18, 22, 26, 0.82);
+}
+
+.prev { left: var(--s2); }
+.next { right: calc(var(--s2) + 16px); }
+
+/* -- footer ---------------------------------------------------------------- */
+
+.footer { padding: var(--s2) var(--s3) var(--s3); text-align: center; }
+
+.caption {
+  color: #fff;
+  font-size: var(--text-base);
+  margin: 0 auto var(--s1);
+  max-width: 46rem;
+}
+
+.hint {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: var(--text-sm);
+  margin: 0;
+  max-width: none;
+}
+
+@media (max-width: 760px) {
+  .bar { justify-content: center; }
+  .nav { min-width: 52px; min-height: 52px; }
+  .hint { font-size: 1rem; }
+}

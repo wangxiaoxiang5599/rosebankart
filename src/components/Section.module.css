@@ -1,0 +1,30 @@
+.section { padding: var(--s6) 0; }
+.section + .section { padding-top: 0; }
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s2) var(--s3);
+  margin-bottom: var(--s4);
+}
+
+.head h2 { margin: 0; }
+
+.more {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-base);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: var(--s3);
+}
+
+.empty { color: var(--ink-soft); font-size: var(--text-lg); }

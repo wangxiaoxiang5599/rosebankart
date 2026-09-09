@@ -1,0 +1,16 @@
+node_modules/
+.next/
+.open-next/
+.wrangler/
+out/
+*.tsbuildinfo
+.env
+.env*.local
+.DS_Store
+
+# Original full-size downloads from the old WordPress site (167 MB).
+# NOT in git, but DO NOT DELETE — keep an off-machine backup. The old site's
+# admin access is lost, so if wordpress.com ever removes it these are gone.
+# archive/raw/*.json IS tracked and records every source URL.
+archive/images/
+.next-build/

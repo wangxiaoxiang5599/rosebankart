@@ -1,0 +1,32 @@
+.artists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s2);
+  padding: var(--s4) 0 var(--s3);
+  border-bottom: 1px solid var(--line);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s2);
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.chip:hover { border-color: var(--ink); color: var(--ink); }
+
+.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--cream);
+}
+.active:hover { color: var(--cream); }
+
+.grid { padding: var(--s5) 0 var(--s6); }

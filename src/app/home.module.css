@@ -1,0 +1,66 @@
+.intro { padding: var(--s6) 0 0; }
+
+.introText {
+  font-size: var(--text-xl);
+  line-height: 1.5;
+  max-width: 46rem;
+  margin: 0 0 var(--s2);
+}
+
+.introMeta {
+  color: var(--ink-soft);
+  font-size: var(--text-base);
+  margin: 0;
+}
+
+.contactStrip {
+  background: var(--cream-deep);
+  border-top: 1px solid var(--line);
+  padding: var(--s6) 0;
+  text-align: center;
+  margin-top: var(--s6);
+}
+
+.stripHeading { margin-bottom: var(--s1); }
+
+.stripText {
+  font-size: var(--text-lg);
+  color: var(--ink-soft);
+  margin: 0 auto var(--s4);
+  max-width: none;
+}
+
+.stripActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  justify-content: center;
+}
+
+.stripBtn,
+.stripBtnGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  padding: 0 var(--s4);
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-base);
+  text-decoration: none;
+}
+
+.stripBtn {
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid var(--accent);
+}
+.stripBtn:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; }
+
+.stripBtnGhost {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+}
+.stripBtnGhost:hover { background: var(--ink); color: var(--cream); }

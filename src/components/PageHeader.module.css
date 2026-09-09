@@ -1,0 +1,21 @@
+.band {
+  background: var(--cream-deep);
+  border-bottom: 1px solid var(--line);
+  padding: var(--s5) 0 var(--s4);
+}
+
+.band h1 { margin-bottom: var(--s2); }
+
+.rule {
+  width: 64px;
+  height: 3px;
+  background: var(--accent);
+  margin-bottom: var(--s3);
+}
+
+.lede {
+  font-size: var(--text-lg);
+  color: var(--ink-soft);
+  max-width: var(--measure);
+  margin: 0;
+}

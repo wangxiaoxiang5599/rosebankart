@@ -1,0 +1,71 @@
+/* The villa photograph, kept from the old site — it is how people recognise
+   the place. Rebuilt as a proper responsive image with a legible overlay. */
+
+.hero { position: relative; background: var(--ink); }
+
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 7;
+  min-height: 340px;
+  max-height: 620px;
+  overflow: hidden;
+}
+
+.frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 58%; }
+
+/* Scrim so the badge stays readable over a busy photograph. */
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Deepest through the middle, where the name sits: the weatherboards behind
+     it are pale, and this audience needs the contrast. */
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 25, 30, 0.44) 0%,
+    rgba(20, 25, 30, 0.5) 38%,
+    rgba(20, 25, 30, 0.52) 62%,
+    rgba(20, 25, 30, 0.58) 100%
+  );
+}
+
+.badge {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: var(--s3);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 5.5vw, 3.75rem);
+  line-height: 1.05;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+}
+
+.rule {
+  width: 78px;
+  height: 3px;
+  background: var(--accent);
+  margin: var(--s2) auto;
+}
+
+.tag {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+  color: rgba(255, 255, 255, 0.94);
+  margin: 0;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+}
+
+@media (max-width: 640px) {
+  .frame { aspect-ratio: 4 / 3; min-height: 300px; }
+}
