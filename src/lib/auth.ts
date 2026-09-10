@@ -5,7 +5,7 @@ import { sessions, users } from '@/db/schema';
 
 const COOKIE = 'rbac_session';
 const SESSION_DAYS = 30;
-const PBKDF2_ITERATIONS = 210_000; // OWASP guidance for PBKDF2-HMAC-SHA512
+const PBKDF2_ITERATIONS = 100_000; // Cloudflare Workers WebCrypto caps PBKDF2 at 100k.
 
 /* -- password hashing ------------------------------------------------------
    bcrypt and argon2 are native modules and cannot run on Workers, so this uses

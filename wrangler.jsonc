@@ -10,12 +10,18 @@
     "binding": "ASSETS"
   },
 
+  "routes": [
+    {
+      "pattern": "rosebankart.wangxiaoxiang.com",
+      "custom_domain": true
+    }
+  ],
+
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "rosebankart-db",
-      // Replace with the id printed by: wrangler d1 create rosebankart-db
-      "database_id": "PLACEHOLDER_RUN_WRANGLER_D1_CREATE",
+      "database_id": "4885b90d-cf5b-4ed4-a9bb-7173c0719b66",
       "migrations_dir": "drizzle"
     }
   ],
@@ -24,6 +30,10 @@
     {
       "binding": "MEDIA",
       "bucket_name": "rosebankart-media"
+    },
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "rosebankart-cache"
     }
   ]
 }

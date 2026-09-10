@@ -14,7 +14,7 @@ import { spawnSync } from 'node:child_process';
 import { createInterface } from 'node:readline';
 import { webcrypto as crypto } from 'node:crypto';
 
-const PBKDF2_ITERATIONS = 210_000;
+const PBKDF2_ITERATIONS = 100_000;
 
 const toB64 = (buf) => Buffer.from(new Uint8Array(buf)).toString('base64');
 
@@ -42,7 +42,6 @@ function askHidden(question) {
     const output = rl.output;
     let muted = false;
     output.write(question);
-    // eslint-disable-next-line no-underscore-dangle
     rl._writeToOutput = (chunk) => {
       if (!muted) output.write(chunk);
     };
