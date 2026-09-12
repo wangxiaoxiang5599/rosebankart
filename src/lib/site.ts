@@ -19,12 +19,11 @@ export const site = {
     single: 50,
     couple: 60,
   },
-  /** Committee, as listed on the old Info page. */
+  /** Current committee. */
   committee: [
-    { name: 'Sue Gordon', role: 'President' },
-    { name: 'Linda Bannister', role: 'Vice President' },
-    { name: 'Angela George', role: 'Treasurer' },
-    { name: 'Margaret Choat', role: 'Secretary' },
+    { name: 'Murray Shaw', role: 'Chairperson' },
+    { name: 'Margaret Choat', role: 'Treasurer' },
+    { name: 'Dawn Greenwood', role: 'Secretary' },
   ],
 } as const;
 
