@@ -14,8 +14,8 @@ export const metadata = { title: 'Gallery' };
 /** How many pictures a page shows before offering to load more. */
 const PAGE_SIZE = 24;
 
-/** Heading for the pieces that came over from the old site without a year. */
-const ARCHIVE_HEADING = 'From the archive';
+/** Heading for the pieces listed without a year — mostly the old site's work. */
+const UNDATED_HEADING = 'Earlier work';
 
 export default async function GalleryPage({
   searchParams,
@@ -83,14 +83,9 @@ export default async function GalleryPage({
           </div>
         ) : (
           groups.map((group) => (
-            <section key={group.year ?? 'archive'} className={styles.year}>
+            <section key={group.year ?? 'earlier'} className={styles.year}>
               <div className={styles.yearHead}>
-                <h2>{group.year ?? ARCHIVE_HEADING}</h2>
-                {group.year === null ? (
-                  <p className={styles.yearNote}>
-                    Pictures from the centre&apos;s earlier years, before dates were kept.
-                  </p>
-                ) : null}
+                <h2>{group.year ?? UNDATED_HEADING}</h2>
               </div>
               <PhotoGrid
                 items={group.items.map((a) => ({ image: a.image, title: a.title, artist: a.artist }))}
