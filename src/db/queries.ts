@@ -66,21 +66,42 @@ export async function getEventBySlug(slug: string) {
   return { ...row.event, cover: row.cover, images: gallery.map((g) => g.image) };
 }
 
-export async function listArtworks(opts: { limit?: number; artist?: string } = {}) {
+export async function listArtworks(
+  opts: { limit?: number; artist?: string; byYear?: boolean } = {},
+) {
   const db = getDb();
   const where = opts.artist
     ? and(eq(artworks.status, 'published'), eq(artworks.artist, opts.artist))
     : eq(artworks.status, 'published');
+
+  const curated = [desc(artworks.featured), asc(artworks.position), desc(artworks.createdAt)];
+  // The Gallery walks through the years newest first. Pieces with no year
+  // recorded — most of what came over from the old site — sit at the end.
+  const order = opts.byYear
+    ? [sql`${artworks.year} IS NULL`, desc(artworks.year), ...curated]
+    : curated;
 
   const rows = await db
     .select({ artwork: artworks, image: images })
     .from(artworks)
     .innerJoin(images, eq(artworks.imageId, images.id))
     .where(where)
-    .orderBy(desc(artworks.featured), asc(artworks.position), desc(artworks.createdAt))
+    .orderBy(...order)
     .limit(opts.limit ?? 500);
 
   return rows.map((r): ArtworkWithImage => ({ ...r.artwork, image: r.image }));
+}
+
+/** Gallery items bucketed by year, newest first, with the undated ones last. */
+export function groupByYear<T extends { year: string | null }>(items: T[]) {
+  const groups: { year: string | null; items: T[] }[] = [];
+  for (const item of items) {
+    const year = item.year?.trim() || null;
+    const last = groups[groups.length - 1];
+    if (last && last.year === year) last.items.push(item);
+    else groups.push({ year, items: [item] });
+  }
+  return groups;
 }
 
 /** Distinct artist names, for the gallery's filter. */

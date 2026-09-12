@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { PageHeader } from '@/components/PageHeader';
 import { PhotoGrid } from '@/components/PhotoGrid';
-import { listArtists, listArtworks } from '@/db/queries';
+import { groupByYear, listArtists, listArtworks } from '@/db/queries';
 import styles from './gallery.module.css';
 
 // D1 is only reachable at request time, never during the build, so these pages
@@ -11,16 +11,36 @@ export const dynamic = 'force-dynamic';
 
 export const metadata = { title: 'Gallery' };
 
+/** How many pictures a page shows before offering to load more. */
+const PAGE_SIZE = 24;
+
+/** Heading for the pieces that came over from the old site without a year. */
+const ARCHIVE_HEADING = 'From the archive';
+
 export default async function GalleryPage({
   searchParams,
 }: {
-  searchParams: Promise<{ artist?: string }>;
+  searchParams: Promise<{ artist?: string; show?: string }>;
 }) {
-  const { artist } = await searchParams;
-  const [artworks, artists] = await Promise.all([
-    listArtworks(artist ? { artist } : {}),
+  const { artist, show } = await searchParams;
+  const limit = Math.max(PAGE_SIZE, Math.min(500, Number(show) || PAGE_SIZE));
+
+  // One extra row tells us whether there is more to load, without a count query.
+  const [rows, artists] = await Promise.all([
+    listArtworks({ artist, byYear: true, limit: limit + 1 }),
     listArtists(),
   ]);
+  const hasMore = rows.length > limit;
+  const artworks = hasMore ? rows.slice(0, limit) : rows;
+  const groups = groupByYear(artworks);
+
+  const galleryHref = (opts: { artist?: string; show?: number }) => {
+    const params = new URLSearchParams();
+    if (opts.artist) params.set('artist', opts.artist);
+    if (opts.show) params.set('show', String(opts.show));
+    const qs = params.toString();
+    return qs ? `/gallery?${qs}` : '/gallery';
+  };
 
   return (
     <>
@@ -42,7 +62,7 @@ export default async function GalleryPage({
             {artists.map((name) => (
               <Link
                 key={name}
-                href={`/gallery?artist=${encodeURIComponent(name)}`}
+                href={galleryHref({ artist: name })}
                 className={`${styles.chip} ${artist === name ? styles.active : ''}`}
                 aria-current={artist === name ? 'page' : undefined}
               >
@@ -52,14 +72,46 @@ export default async function GalleryPage({
           </nav>
         ) : null}
 
-        <div className={styles.grid}>
-          <PhotoGrid
-            items={artworks.map((a) => ({ image: a.image, title: a.title, artist: a.artist }))}
-            emptyMessage={
-              artist ? `No work listed for ${artist} yet.` : 'Artwork will appear here soon.'
-            }
-          />
-        </div>
+        {groups.length === 0 ? (
+          <div className={styles.grid}>
+            <PhotoGrid
+              items={[]}
+              emptyMessage={
+                artist ? `No work listed for ${artist} yet.` : 'Artwork will appear here soon.'
+              }
+            />
+          </div>
+        ) : (
+          groups.map((group) => (
+            <section key={group.year ?? 'archive'} className={styles.year}>
+              <div className={styles.yearHead}>
+                <h2>{group.year ?? ARCHIVE_HEADING}</h2>
+                {group.year === null ? (
+                  <p className={styles.yearNote}>
+                    Pictures from the centre&apos;s earlier years, before dates were kept.
+                  </p>
+                ) : null}
+              </div>
+              <PhotoGrid
+                items={group.items.map((a) => ({ image: a.image, title: a.title, artist: a.artist }))}
+              />
+            </section>
+          ))
+        )}
+
+        {hasMore ? (
+          <div className={styles.more}>
+            {/* A plain link, so it works without JavaScript and can be opened
+                in a tab. scroll={false} keeps the reader where they were. */}
+            <Link
+              className={styles.moreLink}
+              href={galleryHref({ artist, show: limit + PAGE_SIZE })}
+              scroll={false}
+            >
+              Load more
+            </Link>
+          </div>
+        ) : null}
       </div>
     </>
   );
