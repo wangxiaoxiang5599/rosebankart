@@ -10,8 +10,11 @@
 
 .card:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); }
 
+/* Upright, like most of what gets posted: a poster or flyer fills it, and a
+   landscape photograph is cropped to it. Every card in a row is the same
+   height either way. */
 .frame {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4;
   background: var(--cream-deep);
   overflow: hidden;
 }
