@@ -6,6 +6,9 @@ import styles from './PhotoPicker.module.css';
 const FULL_EDGE = 2400;
 const THUMB_EDGE = 600;
 
+/** Stamped into the corner of every uploaded picture, both sizes. */
+const WATERMARK = '© Rosebank Art Centre';
+
 export type PickedPhoto = {
   id: string;
   name: string;
@@ -15,9 +18,31 @@ export type PickedPhoto = {
 type Pending = { name: string; done: number; total: number };
 
 /**
+ * Write the centre's name into the bottom-right corner. White with a soft dark
+ * shadow so it reads on a pale sky and a dark background alike, scaled with the
+ * picture so the thumbnail and the full size carry the same mark.
+ */
+function watermark(ctx: CanvasRenderingContext2D, width: number, height: number) {
+  const size = Math.max(11, Math.round(Math.max(width, height) * 0.03));
+  const margin = Math.round(size * 0.7);
+
+  ctx.font = `600 ${size}px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`;
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'alphabetic';
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
+  ctx.shadowBlur = size * 0.25;
+  ctx.shadowOffsetY = size * 0.05;
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+  ctx.fillText(WATERMARK, width - margin, height - margin);
+}
+
+/**
  * Shrink in the browser before uploading. A phone photo is often 4–6 MB; the
  * centre is on rural broadband, and Workers cannot resize images without a paid
  * add-on. Doing it here makes the upload quick and costs nothing.
+ *
+ * The watermark is baked in here too. No clean copy is kept: the artists share
+ * the same pictures on Facebook, so there is nothing to protect by keeping one.
  */
 async function resize(file: File, maxEdge: number, quality: number) {
   const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
@@ -32,6 +57,7 @@ async function resize(file: File, maxEdge: number, quality: number) {
   if (!ctx) throw new Error('Could not read that photo');
   ctx.drawImage(bitmap, 0, 0, width, height);
   bitmap.close();
+  watermark(ctx, width, height);
 
   const blob = await new Promise<Blob | null>((resolve) =>
     canvas.toBlob(resolve, 'image/webp', quality),
