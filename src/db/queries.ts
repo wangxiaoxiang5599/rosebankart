@@ -182,7 +182,14 @@ export async function listArtworksForAdmin(page = 1, size = ADMIN_PAGE_SIZE) {
     .select({ artwork: artworks, image: images })
     .from(artworks)
     .innerJoin(images, eq(artworks.imageId, images.id))
-    .orderBy(desc(artworks.createdAt), asc(artworks.position))
+    // Same walk as the public Gallery, so what the committee sees here is the
+    // order visitors see there: newest year first, undated pieces at the end.
+    .orderBy(
+      sql`${artworks.year} IS NULL`,
+      desc(artworks.year),
+      asc(artworks.position),
+      desc(artworks.createdAt),
+    )
     .limit(size)
     .offset((page - 1) * size);
 
