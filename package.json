@@ -18,6 +18,9 @@
     "db:seed:local": "wrangler d1 execute rosebankart-db --local --file=data/archive-seed.sql",
     "db:seed:remote": "wrangler d1 execute rosebankart-db --remote --file=data/archive-seed.sql",
     "migrate": "node scripts/migrate.mjs",
+    "import:facebook": "node scripts/import-facebook.mjs",
+    "db:seed:facebook:local": "wrangler d1 execute rosebankart-db --local --file=data/facebook-seed.sql",
+    "db:seed:facebook:remote": "wrangler d1 execute rosebankart-db --remote --file=data/facebook-seed.sql",
     "build:check": "NEXT_DIST_DIR=.next-build next build"
   },
   "dependencies": {

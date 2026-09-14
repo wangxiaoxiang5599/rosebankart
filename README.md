@@ -58,14 +58,15 @@ scripts/
   archive-wp.mjs          pulls the old site down (already run)
   migration-plan.mjs      how old posts map onto the new structure — review this
   migrate.mjs             turns the archive into public/media + data/archive-seed.sql
+  import-facebook.mjs     one-off import of the 2025–2026 Facebook pictures
   create-user.mjs         adds a committee login
 archive/                  the recovered WordPress export (see below)
 ```
 
 ## Two kinds of image
 
-- `media/…` — the 130 migrated pictures. Immutable, so they ship as static
-  assets and come off the CDN.
+- `media/…` — the 130 migrated pictures and the 209 Facebook ones (see
+  below). Immutable, so they ship as static assets and come off the CDN.
 - `uploads/…` — anything added through the admin since. Stored in R2 and served
   by `src/app/img/[...key]/route.ts`.
 
@@ -107,6 +108,26 @@ Left out on purpose:
 | one stock Unsplash photo      | Was decoration on the old Info page            |
 
 Duplicate posts were merged: 193+199, 354+358+370+435+431+429, 449+452, 335+260.
+
+### The Facebook batch
+
+The old site stopped in 2024; 2025–2026 lived on the centre's Facebook page.
+Those pictures were saved by hand into `<folder>/<year>/<facebook-id>.jpg`
+(not in git — 222 files, 79 MB) and imported once with
+
+```bash
+npm run import:facebook -- C:/path/to/rosebankpic   # -> public/media/facebook + data/facebook-seed.sql
+npm run db:seed:facebook:local                        # or :remote after deploying
+```
+
+Every picture became a gallery piece under its year with no title or artist
+— Facebook records neither — for the committee to caption or remove through
+the admin. Near-duplicates (the same poster reposted at another size) are
+dropped by perceptual hash. The seed only inserts, so it is safe to run on a
+database that already has content; `migrate.mjs` leaves the `facebook/`
+folder alone when it rebuilds its own pictures.
+
+This was a one-off. Anything from here on goes in through the admin.
 
 ## Deploying
 

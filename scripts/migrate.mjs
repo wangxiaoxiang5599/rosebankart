@@ -5,7 +5,7 @@
  *
  * Safe to re-run: it rewrites the derivatives and the seed file from scratch.
  */
-import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rm, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -254,8 +254,12 @@ async function main() {
       .filter((f) => !inBody.has(f.url));
   };
 
-  await rm(OUT_DIR, { recursive: true, force: true });
+  // Only this script's own derivatives are cleared. Sub-folders belong to
+  // other one-off imports (scripts/import-facebook.mjs) and are left alone.
   await mkdir(OUT_DIR, { recursive: true });
+  for (const entry of await readdir(OUT_DIR, { withFileTypes: true })) {
+    if (entry.isFile()) await rm(path.join(OUT_DIR, entry.name));
+  }
 
   const now = Math.floor(Date.now() / 1000);
   const lines = [];
