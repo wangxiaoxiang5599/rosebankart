@@ -15,17 +15,22 @@ export const dynamic = 'force-dynamic';
 /**
  * The old home page rendered every event and every picture the centre had ever
  * posted — roughly twenty thousand pixels of scrolling. This one shows the
- * three newest events and eight recent works, and sends people onward.
+ * next three events and eight recent works, and sends people onward.
  */
 export default async function HomePage() {
+  // The same walk as the Gallery, so this is its first eight and "See all
+  // artwork" simply carries on from here.
   const [allEvents, artworks] = await Promise.all([
     listEvents({ limit: 40 }),
-    listArtworks({ limit: 8 }),
+    listArtworks({ limit: 8, byYear: true }),
   ]);
 
-  const { upcoming, past } = partitionByDate(allEvents);
-  const featured = [...upcoming, ...past].slice(0, 3);
-  const hasUpcoming = upcoming.length > 0;
+  // "What's on" is only for what is still to come — an event stays up through
+  // its last day and drops off the morning after. When nothing is booked the
+  // section goes away rather than padding itself out with old events; those
+  // live on the Events page.
+  const { upcoming } = partitionByDate(allEvents);
+  const featured = upcoming.slice(0, 3);
 
   return (
     <>
@@ -40,26 +45,24 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className={styles.section}>
-        <div className="wrap">
-          <div className={styles.head}>
-            <h2>{hasUpcoming ? "What's on" : 'Recent events'}</h2>
-            <Link href="/events" className={styles.more}>
-              See all events →
-            </Link>
-          </div>
+      {featured.length > 0 && (
+        <section className={styles.section}>
+          <div className="wrap">
+            <div className={styles.head}>
+              <h2>What&apos;s on</h2>
+              <Link href="/events" className={styles.more}>
+                See all events →
+              </Link>
+            </div>
 
-          {featured.length > 0 ? (
             <div className={styles.cards}>
               {featured.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}
             </div>
-          ) : (
-            <p className={styles.empty}>Nothing posted yet — please check back soon.</p>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <section className={styles.section}>
         <div className="wrap">
