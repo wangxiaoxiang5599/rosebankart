@@ -6,7 +6,7 @@ import styles from './PhotoPicker.module.css';
 const FULL_EDGE = 2400;
 const THUMB_EDGE = 600;
 
-/** Stamped into the corner of every uploaded picture, both sizes. */
+/** Stamped across the middle of every gallery picture, both sizes. */
 const WATERMARK = '© Rosebank Art Centre';
 
 export type PickedPhoto = {
@@ -18,22 +18,32 @@ export type PickedPhoto = {
 type Pending = { name: string; done: number; total: number };
 
 /**
- * Write the centre's name into the bottom-right corner. White with a soft dark
- * shadow so it reads on a pale sky and a dark background alike, scaled with the
+ * Write the centre's name across the centre of the picture, where it cannot be
+ * cropped off. Translucent white with a soft dark shadow so it reads on a pale
+ * sky and a dark background alike without hiding the work, and scaled with the
  * picture so the thumbnail and the full size carry the same mark.
  */
 function watermark(ctx: CanvasRenderingContext2D, width: number, height: number) {
-  const size = Math.max(11, Math.round(Math.max(width, height) * 0.03));
-  const margin = Math.round(size * 0.7);
+  const font = (px: number) =>
+    `600 ${px}px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`;
 
-  ctx.font = `600 ${size}px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`;
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'alphabetic';
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
+  // Sized from the long edge, then shrunk if a tall picture is too narrow for it.
+  let size = Math.max(11, Math.round(Math.max(width, height) * 0.03));
+  ctx.font = font(size);
+  const maxWidth = width * 0.8;
+  const measured = ctx.measureText(WATERMARK).width;
+  if (measured > maxWidth) {
+    size = Math.max(12, Math.floor((size * maxWidth) / measured));
+    ctx.font = font(size);
+  }
+
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
   ctx.shadowBlur = size * 0.25;
   ctx.shadowOffsetY = size * 0.05;
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-  ctx.fillText(WATERMARK, width - margin, height - margin);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+  ctx.fillText(WATERMARK, width / 2, height / 2);
 }
 
 /**
@@ -41,10 +51,11 @@ function watermark(ctx: CanvasRenderingContext2D, width: number, height: number)
  * centre is on rural broadband, and Workers cannot resize images without a paid
  * add-on. Doing it here makes the upload quick and costs nothing.
  *
- * The watermark is baked in here too. No clean copy is kept: the artists share
- * the same pictures on Facebook, so there is nothing to protect by keeping one.
+ * The watermark, when asked for, is baked in here too. No clean copy is kept:
+ * the artists share the same pictures on Facebook, so there is nothing to
+ * protect by keeping one.
  */
-async function resize(file: File, maxEdge: number, quality: number) {
+async function resize(file: File, maxEdge: number, quality: number, stamp: boolean) {
   const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
   const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
   const width = Math.max(1, Math.round(bitmap.width * scale));
@@ -57,7 +68,7 @@ async function resize(file: File, maxEdge: number, quality: number) {
   if (!ctx) throw new Error('Could not read that photo');
   ctx.drawImage(bitmap, 0, 0, width, height);
   bitmap.close();
-  watermark(ctx, width, height);
+  if (stamp) watermark(ctx, width, height);
 
   const blob = await new Promise<Blob | null>((resolve) =>
     canvas.toBlob(resolve, 'image/webp', quality),
@@ -71,11 +82,14 @@ export function PhotoPicker({
   onChange,
   label = 'Photos',
   hint = 'You can choose more than one. They appear in the order shown below.',
+  watermark: stamp = false,
 }: {
   photos: PickedPhoto[];
   onChange: (next: PickedPhoto[]) => void;
   label?: string;
   hint?: string;
+  /** Stamp the centre's name on the picture. On for artwork, off for posters. */
+  watermark?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<Pending | null>(null);
@@ -92,8 +106,8 @@ export function PhotoPicker({
       setPending({ name: file.name, done: i, total: files.length });
       try {
         const [full, thumb] = await Promise.all([
-          resize(file, FULL_EDGE, 0.82),
-          resize(file, THUMB_EDGE, 0.8),
+          resize(file, FULL_EDGE, 0.82, stamp),
+          resize(file, THUMB_EDGE, 0.8, stamp),
         ]);
 
         const body = new FormData();

@@ -49,6 +49,7 @@ export function ArtworkForm() {
           onChange={setPhotos}
           label="Pictures of the artwork"
           hint="Choose one picture for each piece. You can add several at once."
+          watermark
         />
       </div>
 
