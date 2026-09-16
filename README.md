@@ -131,14 +131,27 @@ This was a one-off. Anything from here on goes in through the admin.
 
 ## Deploying
 
-Not yet done — needs a Cloudflare account and a domain.
+Live at <https://rosebankartcentre.org/> — a Cloudflare Worker named
+`rosebankart` with the domain attached as a Workers custom domain (see
+`routes` in `wrangler.jsonc`). D1 and R2 were created once with:
 
 ```bash
 wrangler d1 create rosebankart-db     # put the id into wrangler.jsonc
 wrangler r2 bucket create rosebankart-media
+wrangler r2 bucket create rosebankart-cache
 npm run db:migrate:remote
 npm run db:seed:remote
+```
+
+Every release since is just:
+
+```bash
 npm run deploy
+```
+
+and a new committee login is:
+
+```bash
 node scripts/create-user.mjs sue@example.com "Sue Gordon" --remote
 ```
 

@@ -12,7 +12,7 @@
 
   "routes": [
     {
-      "pattern": "rosebankart.wangxiaoxiang.com",
+      "pattern": "rosebankartcentre.org",
       "custom_domain": true
     }
   ],
