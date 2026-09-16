@@ -6,10 +6,37 @@ import { eq } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { artworks, eventImages, events } from '@/db/schema';
 import { destroySession, getSessionUser, signIn } from '@/lib/auth';
-import { slugify } from '@/lib/format';
+import { parsePartialDate, slugify } from '@/lib/format';
 import { EVENT_KINDS } from '@/lib/site';
 
-export type FormState = { error?: string; ok?: string; slug?: string };
+export type FormState = {
+  error?: string;
+  ok?: string;
+  slug?: string;
+  /**
+   * What was typed, handed back with an error so the form can show it again.
+   * React resets a form once its action returns; without this, one wrong box
+   * would wipe out everything else that had been filled in.
+   */
+  values?: Record<string, string>;
+};
+
+function typedValues(formData: FormData): Record<string, string> {
+  const values: Record<string, string> = {};
+  for (const [name, value] of formData.entries()) {
+    if (typeof value === 'string') values[name] = value;
+  }
+  return values;
+}
+
+/** The year / month / day boxes that `DateFields` renders under `prefix`. */
+function readDate(formData: FormData, prefix: string) {
+  return parsePartialDate({
+    year: String(formData.get(`${prefix}-year`) ?? ''),
+    month: String(formData.get(`${prefix}-month`) ?? ''),
+    day: String(formData.get(`${prefix}-day`) ?? ''),
+  });
+}
 
 /* -- sign in / out --------------------------------------------------------- */
 
@@ -99,7 +126,8 @@ export async function createEventAction(_prev: FormState, formData: FormData): P
           imageId,
           title: '',
           artist: '',
-          year: null,
+          // Dated by the show they were photographed at.
+          year: startsOn,
           medium: null,
           eventId: id,
           featured: false,
@@ -128,6 +156,19 @@ export async function createArtworksAction(
   const imageIds = String(formData.get('imageIds') ?? '').split(',').filter(Boolean);
   if (imageIds.length === 0) return { error: 'Please choose at least one photo.' };
 
+  const dates: (string | null)[] = [];
+  for (const [i, imageId] of imageIds.entries()) {
+    const date = readDate(formData, `date-${imageId}`);
+    if (!date.ok) {
+      const title = String(formData.get(`title-${imageId}`) ?? '').trim();
+      return {
+        error: `${title || `Picture ${i + 1}`}: ${date.error}`,
+        values: typedValues(formData),
+      };
+    }
+    dates.push(date.value);
+  }
+
   const now = new Date();
   await getDb().insert(artworks).values(
     imageIds.map((imageId, position) => ({
@@ -135,7 +176,7 @@ export async function createArtworksAction(
       imageId,
       title: String(formData.get(`title-${imageId}`) ?? '').trim(),
       artist: String(formData.get(`artist-${imageId}`) ?? '').trim(),
-      year: String(formData.get(`year-${imageId}`) ?? '').trim() || null,
+      year: dates[position],
       medium: null,
       eventId: null,
       featured: false,
@@ -237,12 +278,15 @@ export async function updateArtworkAction(_prev: FormState, formData: FormData):
   const id = String(formData.get('id') ?? '');
   if (!id) return { error: 'That picture could not be found.' };
 
+  const date = readDate(formData, 'date');
+  if (!date.ok) return { error: date.error, values: typedValues(formData) };
+
   await getDb()
     .update(artworks)
     .set({
       title: String(formData.get('title') ?? '').trim(),
       artist: String(formData.get('artist') ?? '').trim(),
-      year: String(formData.get('year') ?? '').trim() || null,
+      year: date.value,
     })
     .where(eq(artworks.id, id));
 

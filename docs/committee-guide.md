@@ -57,7 +57,10 @@ You will see **Done ✓** and a link to look at it on the website.
 3. A box appears under each picture. Fill in:
    - **Name of the piece** — for example, `Autumn Grace`
    - **Artist** — for example, `Michelle Bocock`
-   - **Year** — optional
+   - **When was it made?** — this year is already filled in; change it for
+     older work, and add the month and day if you know them. The Gallery lists
+     the newest work first. Clear the year and the piece goes under "Earlier
+     work".
    You can leave any of these empty if you are not sure.
 4. Click **Save to the Gallery**.
 

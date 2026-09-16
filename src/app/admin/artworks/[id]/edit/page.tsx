@@ -19,14 +19,14 @@ export default async function EditArtworkPage({ params }: { params: Promise<{ id
 
   return (
     <>
-      <PageHeader title="Change a picture" lede="Correct the name of the piece or the artist." />
+      <PageHeader title="Change a picture" lede="Correct the name of the piece, the artist, or when it was made." />
       <div className="wrap">
         <EditArtworkForm
           artwork={{
             id: artwork.id,
             title: artwork.title,
             artist: artwork.artist,
-            year: artwork.year ?? '',
+            year: artwork.year,
             thumb: thumbUrl(artwork.image),
           }}
         />

@@ -82,6 +82,11 @@ export const artworks = sqliteTable(
     imageId: text('image_id').notNull().references(() => images.id, { onDelete: 'cascade' }),
     title: text('title').notNull().default(''),
     artist: text('artist').notNull().default(''),
+    /**
+     * When the piece was made, as much of it as is known: 'yyyy', 'yyyy-mm'
+     * or 'yyyy-mm-dd'. Kept as text so the three forms sort together and
+     * newest-first is a plain descending sort. Null for undated archive work.
+     */
     year: text('year'),
     medium: text('medium'),
     /** Optional link back to the show the piece appeared in. */

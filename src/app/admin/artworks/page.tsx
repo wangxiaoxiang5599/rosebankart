@@ -4,6 +4,7 @@ import { getSessionUser } from '@/lib/auth';
 import { listArtworksForAdmin } from '@/db/queries';
 import { PageHeader } from '@/components/PageHeader';
 import { Pagination } from '@/components/Pagination';
+import { formatPartialDate } from '@/lib/format';
 import { thumbUrl } from '@/lib/images';
 import { setArtworkVisibilityAction } from '../actions';
 import { VisibilityButton } from '../VisibilityButton';
@@ -60,7 +61,7 @@ export default async function ManageArtworksPage({
                       </span>
                     ) : null}
                     {artwork.artist ? `by ${artwork.artist}` : 'No artist recorded'}
-                    {artwork.year ? ` · ${artwork.year}` : ''}
+                    {artwork.year ? ` · ${formatPartialDate(artwork.year)}` : ''}
                   </p>
                 </div>
 

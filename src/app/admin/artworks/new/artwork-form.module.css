@@ -37,8 +37,29 @@
   margin: 0 0 4px;
 }
 
-.fields input { margin-bottom: var(--s2); }
-.fields input:last-child { margin-bottom: 0; }
+.fields > input { margin-bottom: var(--s2); }
+
+.dateFields { border: 0; padding: 0; margin: 0; min-width: 0; }
+.dateFields legend { padding: 0; }
+
+.tiny {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+  margin: 0 0 4px;
+}
+
+/* Year, month, day side by side — the same order people say a date in. */
+.dateRow {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) 5rem;
+  gap: var(--s2);
+  align-items: end;
+}
+
+@media (max-width: 420px) {
+  .dateRow { grid-template-columns: 1fr; }
+}
 
 @media (max-width: 560px) {
   .detail { flex-direction: column; }

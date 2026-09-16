@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useActionState } from 'react';
 import { updateArtworkAction, type FormState } from '../../../actions';
+import { DateFields } from '../../DateFields';
 import styles from '../../../admin.module.css';
 import own from '../../new/artwork-form.module.css';
 
@@ -11,9 +12,10 @@ const initial: FormState = {};
 export function EditArtworkForm({
   artwork,
 }: {
-  artwork: { id: string; title: string; artist: string; year: string; thumb: string };
+  artwork: { id: string; title: string; artist: string; year: string | null; thumb: string };
 }) {
   const [state, action, pending] = useActionState(updateArtworkAction, initial);
+  const typed = state.values ?? {};
 
   if (state.ok) {
     return (
@@ -55,7 +57,7 @@ export function EditArtworkForm({
             id="title"
             name="title"
             type="text"
-            defaultValue={artwork.title}
+            defaultValue={typed.title ?? artwork.title}
           />
 
           <label className={own.small} htmlFor="artist">
@@ -66,20 +68,10 @@ export function EditArtworkForm({
             id="artist"
             name="artist"
             type="text"
-            defaultValue={artwork.artist}
+            defaultValue={typed.artist ?? artwork.artist}
           />
 
-          <label className={own.small} htmlFor="year">
-            Year (optional)
-          </label>
-          <input
-            className={styles.input}
-            id="year"
-            name="year"
-            type="text"
-            inputMode="numeric"
-            defaultValue={artwork.year}
-          />
+          <DateFields prefix="date" defaultValue={artwork.year} values={state.values} />
         </div>
       </div>
 

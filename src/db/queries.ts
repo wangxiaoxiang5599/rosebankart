@@ -75,7 +75,8 @@ export async function listArtworks(
     : eq(artworks.status, 'published');
 
   const curated = [desc(artworks.featured), asc(artworks.position), desc(artworks.createdAt)];
-  // The Gallery walks through the years newest first. Pieces with no year
+  // The Gallery walks through the years newest first — and within a year,
+  // through the months and days where they are known. Pieces with no date
   // recorded — most of what came over from the old site — sit at the end.
   const order = opts.byYear
     ? [sql`${artworks.year} IS NULL`, desc(artworks.year), ...curated]
@@ -92,11 +93,14 @@ export async function listArtworks(
   return rows.map((r): ArtworkWithImage => ({ ...r.artwork, image: r.image }));
 }
 
-/** Gallery items bucketed by year, newest first, with the undated ones last. */
+/**
+ * Gallery items bucketed by year, newest first, with the undated ones last.
+ * `year` may carry a month and day too ('2025-03-14'); the bucket is the year.
+ */
 export function groupByYear<T extends { year: string | null }>(items: T[]) {
   const groups: { year: string | null; items: T[] }[] = [];
   for (const item of items) {
-    const year = item.year?.trim() || null;
+    const year = item.year?.trim().slice(0, 4) || null;
     const last = groups[groups.length - 1];
     if (last && last.year === year) last.items.push(item);
     else groups.push({ year, items: [item] });

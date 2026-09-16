@@ -3,15 +3,17 @@
 import Link from 'next/link';
 import { useActionState, useState } from 'react';
 import { PhotoPicker, type PickedPhoto } from '@/components/PhotoPicker';
+import { DateFields } from '../DateFields';
 import { createArtworksAction, type FormState } from '../../actions';
 import styles from '../../admin.module.css';
 import own from './artwork-form.module.css';
 
 const initial: FormState = {};
 
-export function ArtworkForm() {
+export function ArtworkForm({ currentYear }: { currentYear: string }) {
   const [state, action, pending] = useActionState(createArtworksAction, initial);
   const [photos, setPhotos] = useState<PickedPhoto[]>([]);
+  const typed = state.values ?? {};
 
   if (state.ok) {
     return (
@@ -76,6 +78,7 @@ export function ArtworkForm() {
                     id={`title-${photo.id}`}
                     name={`title-${photo.id}`}
                     type="text"
+                    defaultValue={typed[`title-${photo.id}`] ?? ''}
                   />
 
                   <label className={own.small} htmlFor={`artist-${photo.id}`}>
@@ -86,17 +89,13 @@ export function ArtworkForm() {
                     id={`artist-${photo.id}`}
                     name={`artist-${photo.id}`}
                     type="text"
+                    defaultValue={typed[`artist-${photo.id}`] ?? ''}
                   />
 
-                  <label className={own.small} htmlFor={`year-${photo.id}`}>
-                    Year (optional)
-                  </label>
-                  <input
-                    className={styles.input}
-                    id={`year-${photo.id}`}
-                    name={`year-${photo.id}`}
-                    type="text"
-                    inputMode="numeric"
+                  <DateFields
+                    prefix={`date-${photo.id}`}
+                    defaultValue={currentYear}
+                    values={state.values}
                   />
                 </div>
               </li>
