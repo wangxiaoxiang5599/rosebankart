@@ -5,6 +5,10 @@
 
 .frame {
   position: relative;
+  /* Explicit width: with it left auto, the max-height below would be pushed
+     back through the aspect ratio and cap the width at 1417px, leaving a
+     bare strip down the right of any wider screen. */
+  width: 100%;
   aspect-ratio: 16 / 7;
   min-height: 340px;
   max-height: 620px;
