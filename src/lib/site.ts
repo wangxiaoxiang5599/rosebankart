@@ -5,6 +5,8 @@
 export const site = {
   name: 'Rosebank Art Centre',
   tagline: 'Charitable Trust',
+  /** Where the site lives. Canonical links, the sitemap and share cards all need the absolute form. */
+  url: 'https://rosebankartcentre.org',
   intro:
     'Rosebank Art Centre is a community art facility in Te Awamutu that aims to foster, promote and support local arts.',
   address: {

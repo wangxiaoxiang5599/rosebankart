@@ -2,7 +2,11 @@ import { PageHeader } from '@/components/PageHeader';
 import { site } from '@/lib/site';
 import styles from './contact.module.css';
 
-export const metadata = { title: 'Contact' };
+export const metadata = {
+  title: 'Contact',
+  description: `Find ${site.name} at ${site.address.street}, ${site.address.town}, or get in touch by email or Facebook about joining, exhibiting or visiting.`,
+  alternates: { canonical: '/contact' },
+};
 
 const mapQuery = encodeURIComponent(
   `${site.address.street}, ${site.address.town} ${site.address.postcode}, ${site.address.country}`,

@@ -2,7 +2,11 @@ import { PageHeader } from '@/components/PageHeader';
 import { site } from '@/lib/site';
 import styles from './about.module.css';
 
-export const metadata = { title: 'About' };
+export const metadata = {
+  title: 'About',
+  description: `Who runs ${site.name}, how to become a member, and what the centre on ${site.address.street}, ${site.address.town} offers local artists.`,
+  alternates: { canonical: '/about' },
+};
 
 /**
  * Merges the old About page with the old "Info" page, which held the committee

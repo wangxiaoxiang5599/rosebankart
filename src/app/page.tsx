@@ -12,6 +12,8 @@ import home from './home.module.css';
 // committee sees a new post the moment they publish it.
 export const dynamic = 'force-dynamic';
 
+export const metadata = { alternates: { canonical: '/' } };
+
 /**
  * The old home page rendered every event and every picture the centre had ever
  * posted — roughly twenty thousand pixels of scrolling. This one shows the

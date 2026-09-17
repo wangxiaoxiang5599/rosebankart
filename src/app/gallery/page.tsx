@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { PageHeader } from '@/components/PageHeader';
 import { PhotoGrid } from '@/components/PhotoGrid';
 import { groupByYear, listArtists, listArtworks } from '@/db/queries';
+import { site } from '@/lib/site';
 import styles from './gallery.module.css';
 
 // D1 is only reachable at request time, never during the build, so these pages
@@ -9,7 +10,12 @@ import styles from './gallery.module.css';
 // committee sees a new post the moment they publish it.
 export const dynamic = 'force-dynamic';
 
-export const metadata = { title: 'Gallery' };
+export const metadata = {
+  title: 'Gallery',
+  description: `Paintings and other work by member artists of ${site.name}, ${site.address.town}, from recent challenges and exhibitions.`,
+  // Filtering by artist or loading more is the same gallery, not a different page.
+  alternates: { canonical: '/gallery' },
+};
 
 /** How many pictures a page shows before offering to load more. */
 const PAGE_SIZE = 24;

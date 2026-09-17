@@ -2,7 +2,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { EventCard } from '@/components/EventCard';
 import { EventFilter } from '@/components/EventFilter';
 import { listEvents, partitionByDate } from '@/db/queries';
-import { EVENT_KINDS, type EventKind } from '@/lib/site';
+import { EVENT_KINDS, site, type EventKind } from '@/lib/site';
 import styles from '@/components/Section.module.css';
 
 // D1 is only reachable at request time, never during the build, so these pages
@@ -10,7 +10,12 @@ import styles from '@/components/Section.module.css';
 // committee sees a new post the moment they publish it.
 export const dynamic = 'force-dynamic';
 
-export const metadata = { title: 'Events' };
+export const metadata = {
+  title: 'Events',
+  description: `Exhibitions, workshops and classes at ${site.name}, ${site.address.town} — what is coming up and what has been on.`,
+  // The ?kind= filter shows a subset of the same list, not a different page.
+  alternates: { canonical: '/events' },
+};
 
 const isKind = (v: string | undefined): v is EventKind => !!v && v in EVENT_KINDS;
 
