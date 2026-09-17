@@ -1,0 +1,18 @@
+# Rosebank Art Centre
+
+> A community art facility in Te Awamutu, New Zealand, run as a charitable trust by its members. It holds exhibitions, runs workshops and classes, and gives local artists a place to work and show their art.
+
+Address: 337 Churchill Street, Te Awamutu 3800, New Zealand
+Email: rosebankartcentre@gmail.com
+Facebook: https://www.facebook.com/rosebankartcentre
+
+## Pages
+
+- [Events](https://rosebankartcentre.org/events): exhibitions, workshops and classes, upcoming and past
+- [Gallery](https://rosebankartcentre.org/gallery): work by member artists
+- [About](https://rosebankartcentre.org/about): who runs the centre and how to join
+- [Contact](https://rosebankartcentre.org/contact): how to find and reach the centre
+
+## Index
+
+- [Sitemap](https://rosebankartcentre.org/sitemap.xml)

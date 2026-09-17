@@ -30,23 +30,38 @@ export const metadata: Metadata = {
 
 /**
  * Tells search engines what this place is, in their own vocabulary: an art
- * organisation at a street address, with an email and a Facebook page.
+ * organisation at a street address, with an email and a Facebook page, and
+ * the website that belongs to it. ArtGallery already implies Organization,
+ * but naming both keeps the literal-minded checkers happy too.
  */
-const organisation = {
+const structured = {
   '@context': 'https://schema.org',
-  '@type': 'ArtGallery',
-  name: site.name,
-  url: site.url,
-  email: site.email,
-  sameAs: [site.facebook],
-  image: `${site.url}/hero-1200.jpg`,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: site.address.street,
-    addressLocality: site.address.town,
-    postalCode: site.address.postcode,
-    addressCountry: 'NZ',
-  },
+  '@graph': [
+    {
+      '@type': ['ArtGallery', 'Organization'],
+      '@id': `${site.url}/#organisation`,
+      name: site.name,
+      url: site.url,
+      email: site.email,
+      sameAs: [site.facebook],
+      image: `${site.url}/hero-1200.jpg`,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: site.address.street,
+        addressLocality: site.address.town,
+        postalCode: site.address.postcode,
+        addressCountry: 'NZ',
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site.url}/#website`,
+      name: site.name,
+      url: site.url,
+      inLanguage: 'en-NZ',
+      publisher: { '@id': `${site.url}/#organisation` },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -55,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organisation) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
         />
         <a className="skip-link" href="#main">Skip to content</a>
         <SiteHeader />
