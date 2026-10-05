@@ -30,8 +30,8 @@ export const metadata: Metadata = {
 
 /**
  * Tells search engines what this place is, in their own vocabulary: an art
- * organisation at a street address, with an email and a Facebook page, and
- * the website that belongs to it. ArtGallery already implies Organization,
+ * organisation at a street address, with opening hours, an email and a
+ * Facebook page, and the website that belongs to it. ArtGallery already implies Organization,
  * but naming both keeps the literal-minded checkers happy too.
  */
 const structured = {
@@ -45,6 +45,12 @@ const structured = {
       email: site.email,
       sameAs: [site.facebook],
       image: `${site.url}/hero-1200.jpg`,
+      openingHoursSpecification: site.hours.map(({ day, opens, closes }) => ({
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: `https://schema.org/${day}`,
+        opens,
+        closes,
+      })),
       address: {
         '@type': 'PostalAddress',
         streetAddress: site.address.street,

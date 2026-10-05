@@ -12,8 +12,13 @@
 
 .main h2 { margin-top: var(--s5); }
 .main h2:first-child { margin-top: 0; }
+.main h3 { font-size: var(--text-lg); margin-top: var(--s4); }
+.main ul { max-width: var(--measure); margin: 0 0 var(--s3); }
 
-.people { list-style: none; padding: 0; margin: 0; }
+.main ul.meetings { list-style: none; padding: 0; margin-top: var(--s3); }
+.meetings li { margin-bottom: var(--s2); }
+
+.main ul.people { list-style: none; padding: 0; margin: 0; }
 
 .people li {
   display: flex;
@@ -28,7 +33,6 @@
 .personRole { color: var(--ink-soft); }
 
 .side { display: flex; flex-direction: column; gap: var(--s3); }
-
 .card {
   background: var(--paper);
   border-radius: var(--radius);

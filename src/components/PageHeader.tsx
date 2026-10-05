@@ -6,7 +6,7 @@ export function PageHeader({ title, lede }: { title: string; lede?: string }) {
       <div className="wrap">
         <h1>{title}</h1>
         <div className={styles.rule} />
-        {lede ? <p className={styles.lede}>{lede}</p> : null}
+        {lede ? <p className={`${styles.lede} prose`}>{lede}</p> : null}
       </div>
     </div>
   );

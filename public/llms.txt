@@ -3,6 +3,7 @@
 > A community art facility in Te Awamutu, New Zealand, run as a charitable trust by its members. It holds exhibitions, runs workshops and classes, and gives local artists a place to work and show their art.
 
 Address: 337 Churchill Street, Te Awamutu 3800, New Zealand
+Opening hours: Monday 10:30am – 12:30pm; Wednesday and Friday 10am – 12pm. Closed on New Zealand public holidays and over Christmas and New Year.
 Email: rosebankartcentre@gmail.com
 Facebook: https://www.facebook.com/rosebankartcentre
 
@@ -10,7 +11,7 @@ Facebook: https://www.facebook.com/rosebankartcentre
 
 - [Events](https://rosebankartcentre.org/events): exhibitions, workshops and classes, upcoming and past
 - [Gallery](https://rosebankartcentre.org/gallery): work by member artists
-- [About](https://rosebankartcentre.org/about): who runs the centre and how to join
+- [About](https://rosebankartcentre.org/about): history, the art house, membership benefits, and who runs the centre
 - [Contact](https://rosebankartcentre.org/contact): how to find and reach the centre
 
 ## Index

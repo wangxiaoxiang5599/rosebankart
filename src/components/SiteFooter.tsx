@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { nav, site } from '@/lib/site';
+import { summariseHours } from '@/lib/format';
 import styles from './SiteFooter.module.css';
 
 export function SiteFooter() {
@@ -16,6 +17,16 @@ export function SiteFooter() {
               <br />
               {site.address.country}
             </address>
+            <h3 className={styles.subheading}>Open</h3>
+            {/* Runs of days rather than a day-by-day table: the column is too narrow for one. */}
+            <p className={styles.hours}>
+              {summariseHours(site.hours).map(({ days, times }) => (
+                <span key={days}>
+                  {days} <span className="nowrap">{times}</span>
+                </span>
+              ))}
+            </p>
+            <p className={styles.note}>Closed on public holidays.</p>
           </div>
 
           <div>

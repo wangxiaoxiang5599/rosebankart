@@ -86,6 +86,16 @@ hr {
   padding-inline: var(--s3);
 }
 
+/* Running text with an even right edge, as the committee asked for. Only where
+   lines are long enough to take it: in a phone's narrow column at this text
+   size the gaps between words open up and it gets harder to read. */
+@media (min-width: 700px) {
+  .prose { text-align: justify; }
+}
+
+/* Keeps a short phrase such as "10am – 12pm" on one line. */
+.nowrap { white-space: nowrap; }
+
 .visually-hidden {
   position: absolute;
   width: 1px; height: 1px;

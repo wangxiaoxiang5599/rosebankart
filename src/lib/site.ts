@@ -21,7 +21,20 @@ export const site = {
     single: 50,
     couple: 60,
   },
-  /** Current committee. */
+  /**
+   * When the art house is open — the same mornings as the members' art
+   * sessions. 24-hour times, the form schema.org wants; `formatHours` turns
+   * them into "10:30am – 12:30pm" for people.
+   */
+  hours: [
+    { day: 'Monday', opens: '10:30', closes: '12:30' },
+    { day: 'Wednesday', opens: '10:00', closes: '12:00' },
+    { day: 'Friday', opens: '10:00', closes: '12:00' },
+  ],
+  /** Closure dates change every year, so they are announced on Facebook rather than kept here. */
+  hoursNote:
+    'Closed on public holidays, including the Christmas and New Year break. Closures are announced on our Facebook page.',
+  /** Current officers — the board has eight trustees, but only these are named. */
   committee: [
     { name: 'Murray Shaw', role: 'Chairperson' },
     { name: 'Margaret Choat', role: 'Treasurer' },

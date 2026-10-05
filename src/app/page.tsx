@@ -1,9 +1,11 @@
+import { Fragment } from 'react';
 import Link from 'next/link';
 import { Hero } from '@/components/Hero';
 import { EventCard } from '@/components/EventCard';
 import { PhotoGrid } from '@/components/PhotoGrid';
 import { listArtworks, listEvents, partitionByDate } from '@/db/queries';
 import { site } from '@/lib/site';
+import { summariseHours } from '@/lib/format';
 import styles from '@/components/Section.module.css';
 import home from './home.module.css';
 
@@ -40,7 +42,7 @@ export default async function HomePage() {
 
       <section className={home.intro}>
         <div className="wrap">
-          <p className={home.introText}>{site.intro}</p>
+          <p className={`${home.introText} prose`}>{site.intro}</p>
           <p className={home.introMeta}>
             {site.address.street}, {site.address.town} · New members always welcome
           </p>
@@ -87,6 +89,14 @@ export default async function HomePage() {
           <h2 className={home.stripHeading}>Come and see us</h2>
           <p className={home.stripText}>
             {site.address.street}, {site.address.town} {site.address.postcode}
+            <br />
+            Open{' '}
+            {summariseHours(site.hours).map(({ days, times }, i) => (
+              <Fragment key={days}>
+                {i > 0 && '; '}
+                {days} <span className="nowrap">{times}</span>
+              </Fragment>
+            ))}
           </p>
           <div className={home.stripActions}>
             <a className={home.stripBtn} href={`mailto:${site.email}`}>

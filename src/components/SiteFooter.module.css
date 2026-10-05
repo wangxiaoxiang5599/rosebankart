@@ -22,6 +22,20 @@
   margin: 0 0 var(--s2);
 }
 
+.subheading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+  margin: var(--s3) 0 var(--s1);
+}
+
+.hours { display: flex; flex-direction: column; gap: var(--s1); line-height: 1.5; margin: 0; }
+
+.note { margin: var(--s1) 0 0; color: rgba(255, 255, 255, 0.72); }
+
 .footer address {
   font-style: normal;
   line-height: 1.7;

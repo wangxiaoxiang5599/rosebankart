@@ -36,6 +36,10 @@
 
 .address { font-style: normal; font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--s2); }
 
+.hours { font-size: var(--text-lg); margin-bottom: var(--s2); }
+
+.note { color: var(--ink-soft); margin: 0; }
+
 .linkBtn {
   display: inline-flex;
   align-items: center;

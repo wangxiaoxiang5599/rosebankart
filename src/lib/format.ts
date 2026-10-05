@@ -100,6 +100,43 @@ export function formatPartialDate(value: string | null | undefined): string {
   return day ? `${day} ${name} ${year}` : `${name} ${year}`;
 }
 
+/** "10:30" → "10:30am", "12:00" → "12pm". */
+export function formatTime(hhmm: string): string {
+  const [h, m] = hhmm.split(':').map(Number);
+  const hour = h % 12 || 12;
+  const suffix = h < 12 ? 'am' : 'pm';
+  return m ? `${hour}:${String(m).padStart(2, '0')}${suffix}` : `${hour}${suffix}`;
+}
+
+export function formatHours(opens: string, closes: string): string {
+  return `${formatTime(opens)} – ${formatTime(closes)}`;
+}
+
+/**
+ * The opening hours with days that share times run together:
+ * [{ days: "Monday", times: "10:30am – 12:30pm" },
+ *  { days: "Wednesday and Friday", times: "10am – 12pm" }].
+ * Kept apart so callers can stop the times wrapping — browsers will break a
+ * line after an en dash even with a non-breaking space beside it.
+ */
+export function summariseHours(
+  hours: readonly { day: string; opens: string; closes: string }[],
+): { days: string; times: string }[] {
+  const runs: { days: string[]; times: string }[] = [];
+  for (const { day, opens, closes } of hours) {
+    const times = formatHours(opens, closes);
+    const same = runs.find((run) => run.times === times);
+    if (same) same.days.push(day);
+    else runs.push({ days: [day], times });
+  }
+  return runs
+    .map(({ days, times }) => {
+      const list =
+        days.length > 1 ? `${days.slice(0, -1).join(', ')} and ${days.at(-1)}` : days[0];
+      return { days: list, times };
+    });
+}
+
 /** Today in NZ, as yyyy-mm-dd, for deciding what is still upcoming. */
 export function todayInNZ(): string {
   return new Intl.DateTimeFormat('en-CA', {

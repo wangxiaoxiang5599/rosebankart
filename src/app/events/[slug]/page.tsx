@@ -108,8 +108,8 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       </div>
 
       <div className="wrap">
-        {event.summary ? <p className={styles.summary}>{event.summary}</p> : null}
-        {event.body ? <div className={styles.body}>{event.body}</div> : null}
+        {event.summary ? <p className={`${styles.summary} prose`}>{event.summary}</p> : null}
+        {event.body ? <div className={`${styles.body} prose`}>{event.body}</div> : null}
 
         {photos.length > 0 ? (
           // A lone poster gets a comfortable reading width rather than being

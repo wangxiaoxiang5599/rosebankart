@@ -1,10 +1,11 @@
 import { PageHeader } from '@/components/PageHeader';
+import { OpeningHours } from '@/components/OpeningHours';
 import { site } from '@/lib/site';
 import styles from './contact.module.css';
 
 export const metadata = {
   title: 'Contact',
-  description: `Find ${site.name} at ${site.address.street}, ${site.address.town}, or get in touch by email or Facebook about joining, exhibiting or visiting.`,
+  description: `Opening hours and directions for ${site.name} at ${site.address.street}, ${site.address.town}, and how to get in touch by email or Facebook about joining, exhibiting or visiting.`,
   alternates: { canonical: '/contact' },
 };
 
@@ -52,6 +53,12 @@ export default function ContactPage() {
               >
                 Open in Google Maps
               </a>
+            </section>
+
+            <section className={styles.block}>
+              <h2 className={styles.label}>Opening hours</h2>
+              <OpeningHours className={styles.hours} />
+              <p className={styles.note}>{site.hoursNote}</p>
             </section>
 
             <section className={styles.block}>
