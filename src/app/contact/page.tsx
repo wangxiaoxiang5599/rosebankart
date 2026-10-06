@@ -31,9 +31,9 @@ export default function ContactPage() {
           <div className={styles.details}>
             <section className={styles.block}>
               <h2 className={styles.label}>Email</h2>
-              <a className={styles.big} href={`mailto:${site.email}`}>
-                {site.email}
-              </a>
+              {/* Plain text, not mailto: — on a PC that opens Outlook, which
+                  nobody here uses. People copy it into their own email. */}
+              <p className={styles.big}>{site.email}</p>
             </section>
 
             <section className={styles.block}>

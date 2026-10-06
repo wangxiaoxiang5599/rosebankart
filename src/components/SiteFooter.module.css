@@ -46,11 +46,14 @@
 
 .links { display: flex; flex-direction: column; gap: var(--s1); align-items: flex-start; }
 
-.links a {
+.links a,
+.email {
   display: inline-flex;
   align-items: center;
   min-height: 40px;
 }
+
+.email { color: var(--paper); }
 
 .base {
   margin-top: var(--s4);

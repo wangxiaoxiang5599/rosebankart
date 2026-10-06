@@ -32,7 +32,9 @@ export function SiteFooter() {
           <div>
             <h2 className={styles.heading}>Get in touch</h2>
             <div className={styles.links}>
-              <a href={`mailto:${site.email}`}>{site.email}</a>
+              {/* Plain text, not mailto: — on a PC that opens Outlook, which
+                  nobody here uses. People copy it into their own email. */}
+              <span className={styles.email}>{site.email}</span>
               <a href={site.facebook} target="_blank" rel="noreferrer noopener">
                 Find us on Facebook
               </a>
