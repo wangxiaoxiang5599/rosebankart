@@ -19,10 +19,29 @@
 }
 
 .brand {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   text-decoration: none;
   color: var(--paper);
   padding: var(--s1) 0;
+}
+
+/* The trust's rose, sized to the two lines of name beside it. */
+.rose {
+  flex: none;
+  height: 3.6rem;
+  width: auto;
+}
+
+/* On a phone there is only room beside the Menu button for "Rosebank Art"
+   on one line; the full name stays in the link's label. */
+@media (max-width: 480px) {
+  .inner { padding-inline: var(--s2); gap: var(--s2); }
+  .brand { gap: 0.5rem; }
+  .rose { height: 3rem; }
+  .brandName { white-space: nowrap; }
+  .nameTail { display: none; }
 }
 
 .brandName {

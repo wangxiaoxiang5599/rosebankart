@@ -13,13 +13,27 @@ export function SiteHeader() {
   const isCurrent = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
+  // "Centre" drops on a phone so the name keeps to one line beside the rose.
+  const cut = site.name.lastIndexOf(' ');
+
   return (
     <header className={styles.bar}>
       <div className={styles.inner}>
-        <Link href="/" className={styles.brand} onClick={() => setOpen(false)}>
-          <span className={styles.brandName}>{site.name}</span>
-          <br />
-          <span className={styles.brandTag}>{site.tagline}</span>
+        <Link
+          href="/"
+          className={styles.brand}
+          aria-label={site.name}
+          onClick={() => setOpen(false)}
+        >
+          <img src="/rose.svg" alt="" width={130} height={155} className={styles.rose} />
+          <span>
+            <span className={styles.brandName}>
+              {site.name.slice(0, cut)}
+              <span className={styles.nameTail}>{site.name.slice(cut)}</span>
+            </span>
+            <br />
+            <span className={styles.brandTag}>{site.tagline}</span>
+          </span>
         </Link>
 
         {/* A labelled button, not a bare icon — the audience here skews older
