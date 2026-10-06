@@ -9,8 +9,10 @@ export const metadata = {
   alternates: { canonical: '/contact' },
 };
 
+// Leading with the name makes Google match the business listing (hours,
+// photos, reviews) rather than dropping a bare pin on the street address.
 const mapQuery = encodeURIComponent(
-  `${site.address.street}, ${site.address.town} ${site.address.postcode}, ${site.address.country}`,
+  `${site.name}, ${site.address.street}, ${site.address.town} ${site.address.postcode}, ${site.address.country}`,
 );
 
 /**
